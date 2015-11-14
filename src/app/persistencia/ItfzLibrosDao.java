@@ -16,7 +16,7 @@ public interface ItfzLibrosDao {
     
     public boolean altaLibro(Libro libro);
     
-    public boolean eliminar();
+    public boolean eliminar(int id);
     
     public List<Libro> consultarTodos();
     

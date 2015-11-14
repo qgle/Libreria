@@ -6,6 +6,7 @@
 package app.negocio;
 
 import app.modelo.Libro;
+import app.persistencia.LibrosDAO;
 import java.util.List;
 
 /**
@@ -16,32 +17,38 @@ public class GestionLibreria implements ItfzGestionLibreria {
 
     @Override
     public boolean altaLibro(Libro libro) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LibrosDAO libDAO = new LibrosDAO();
+        return libDAO.altaLibro(libro);
     }
 
     @Override
-    public boolean eliminar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean eliminar(int id) {
+        LibrosDAO libDAO = new LibrosDAO();
+        return libDAO.eliminar(id);
     }
 
     @Override
     public List<Libro> consultarTodos() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LibrosDAO libDAO = new LibrosDAO();
+        return libDAO.consultarTodos();
     }
 
     @Override
     public Libro consultarISBN(String isbn) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LibrosDAO libDAO = new LibrosDAO();
+        return libDAO.consultarISBN(isbn);
     }
 
     @Override
     public List<Libro> consultarTitulo(String titulo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LibrosDAO libDAO = new LibrosDAO();        
+        return libDAO.consultarTitulo(titulo);
     }
 
     @Override
     public boolean modificarPrecio(String isbn, double precio) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LibrosDAO libDAO = new LibrosDAO();
+        return libDAO.modificarPrecio(isbn, precio);
     }
     
 }

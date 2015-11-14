@@ -18,6 +18,29 @@ public class Libro {
     private int publicacion;
     private double precio;
     private String descripcion;
+    
+    public Libro(){};
+
+    public Libro(String titulo, String autor, String editorial, String isbn, int publicacion, double precio, String descripcion) {
+        this.setTitulo(titulo);
+        this.setAutor(autor);
+        this.setEditorial(editorial);
+        this.setIsbn(isbn);
+        this.setPublicacion(publicacion);
+        this.setPrecio(precio);
+        this.setDescripcion(descripcion);
+    }
+    
+    public Libro(int id, String titulo, String autor, String editorial, String isbn, int publicacion, double precio, String descripcion) {
+        this.setID(id);
+        this.setTitulo(titulo);
+        this.setAutor(autor);
+        this.setEditorial(editorial);
+        this.setIsbn(isbn);
+        this.setPublicacion(publicacion);
+        this.setPrecio(precio);
+        this.setDescripcion(descripcion);
+    }
 
     public int getID() {
         return ID;
@@ -32,7 +55,10 @@ public class Libro {
     }
 
     public void setTitulo(String titulo) {
-        this.titulo = titulo;
+        if (titulo.length() > 50)
+            this.titulo = titulo.substring(0, 50);
+        else
+            this.titulo = titulo;
     }
 
     public String getAutor() {
@@ -40,7 +66,10 @@ public class Libro {
     }
 
     public void setAutor(String autor) {
-        this.autor = autor;
+        if (autor.length() > 50)
+            this.autor = autor.substring(0, 50);
+        else
+            this.autor = autor;
     }
 
     public String getEditorial() {
@@ -48,7 +77,10 @@ public class Libro {
     }
 
     public void setEditorial(String editorial) {
-        this.editorial = editorial;
+        if (editorial.length() > 50)
+            this.editorial = editorial.substring(0, 50);
+        else
+            this.editorial = editorial;
     }
 
     public String getIsbn() {
@@ -56,7 +88,10 @@ public class Libro {
     }
 
     public void setIsbn(String isbn) {
-        this.isbn = isbn;
+        if (isbn.length() > 20)
+            this.isbn = isbn.substring(0, 20);
+        else
+            this.isbn = isbn;
     }
 
     public int getPublicacion() {
@@ -80,7 +115,24 @@ public class Libro {
     }
 
     public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+        if (descripcion.length() > 200)
+            this.descripcion = descripcion.substring(0, 200);
+        else
+            this.descripcion = descripcion;
+    }
+    
+    public void imprimir(){
+        System.out.println();
+        System.out.println("ID: " + String.valueOf(this.getID()));
+        System.out.println("Titulo: " + this.getTitulo());
+        System.out.println("Autor: " + this.getAutor());
+        System.out.println("Editorial: " + this.getEditorial());
+        System.out.println("ISBN: " + this.getIsbn());
+        System.out.println("Publicación: " + String.valueOf(this.getPublicacion()));
+        System.out.println("Precio: "+ String.valueOf(this.getPrecio()) + " €");
+        System.out.println("Descripcion: " + this.getDescripcion());
+        System.out.println();
+        
     }
     
 }
