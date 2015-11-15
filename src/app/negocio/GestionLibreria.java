@@ -14,40 +14,36 @@ import java.util.List;
  * @author José
  */
 public class GestionLibreria implements ItfzGestionLibreria {
+    
+    private final LibrosDAO libDAO = new LibrosDAO();
 
     @Override
     public boolean altaLibro(Libro libro) {
-        LibrosDAO libDAO = new LibrosDAO();
         return libDAO.altaLibro(libro);
     }
 
     @Override
     public boolean eliminar(int id) {
-        LibrosDAO libDAO = new LibrosDAO();
         return libDAO.eliminar(id);
     }
 
     @Override
     public List<Libro> consultarTodos() {
-        LibrosDAO libDAO = new LibrosDAO();
         return libDAO.consultarTodos();
     }
 
     @Override
     public Libro consultarISBN(String isbn) {
-        LibrosDAO libDAO = new LibrosDAO();
         return libDAO.consultarISBN(isbn);
     }
 
     @Override
     public List<Libro> consultarTitulo(String titulo) {
-        LibrosDAO libDAO = new LibrosDAO();        
         return libDAO.consultarTitulo(titulo);
     }
 
     @Override
     public boolean modificarPrecio(String isbn, double precio) {
-        LibrosDAO libDAO = new LibrosDAO();
         return libDAO.modificarPrecio(isbn, precio);
     }
     

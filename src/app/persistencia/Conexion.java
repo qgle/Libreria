@@ -23,14 +23,12 @@ public class Conexion {
             this.conn = null;
             String driver = "org.apache.derby.jdbc.EmbeddedDriver";
             Class.forName(driver).newInstance();
-            try {
-                this.conn = DriverManager.getConnection(this.nombreBD);
-            } catch (SQLException ex) {
+            this.conn = DriverManager.getConnection(this.nombreBD);
+        }   catch (SQLException ex) {
                 System.out.println("Error al conectar con la base de datos: " + ex.getMessage());
-            }
-        } catch (Exception ex) {
-            System.out.println("Algo ha ido mal: " + ex.getMessage());
-            ex.printStackTrace();
+        }   catch (Exception ex) {
+                System.out.println("Algo ha ido mal: " + ex.getMessage());
+                ex.printStackTrace();
         }
     }    
 
