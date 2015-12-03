@@ -6,6 +6,7 @@
 package app.negocio;
 
 import app.modelo.Libro;
+import app.modelo.LibroNoEncontradoException;
 import app.persistencia.LibrosDAO;
 import java.util.List;
 
@@ -23,8 +24,15 @@ public class GestionLibreria implements ItfzGestionLibreria {
     }
 
     @Override
-    public boolean eliminar(int id) {
-        return libDAO.eliminar(id);
+    public boolean eliminar(int id) throws LibroNoEncontradoException {
+        boolean eliminado = false;
+        try {
+            eliminado = libDAO.eliminar(id);
+        } catch (LibroNoEncontradoException ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.getMessage();
+        }
+        return eliminado;
     }
 
     @Override
@@ -34,7 +42,14 @@ public class GestionLibreria implements ItfzGestionLibreria {
 
     @Override
     public Libro consultarISBN(String isbn) {
-        return libDAO.consultarISBN(isbn);
+        Libro l = null;
+        try {
+            l = libDAO.consultarISBN(isbn);
+        } catch (LibroNoEncontradoException ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.getMessage();
+        }
+        return l;
     }
 
     @Override
@@ -43,8 +58,15 @@ public class GestionLibreria implements ItfzGestionLibreria {
     }
 
     @Override
-    public boolean modificarPrecio(String isbn, double precio) {
-        return libDAO.modificarPrecio(isbn, precio);
+    public boolean modificarPrecio(String isbn, double precio) throws LibroNoEncontradoException {
+        boolean eliminado = false;
+        try {
+            libDAO.modificarPrecio(isbn, precio);
+        } catch (LibroNoEncontradoException ex) {
+            System.out.println("Error: " + ex.getMessage());
+            ex.getMessage();
+        }
+        return eliminado;
     }
     
 }

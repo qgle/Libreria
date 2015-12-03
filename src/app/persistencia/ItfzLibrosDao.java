@@ -6,6 +6,7 @@
 package app.persistencia;
 
 import app.modelo.Libro;
+import app.modelo.LibroNoEncontradoException;
 import java.util.List;
 
 /**
@@ -16,14 +17,14 @@ public interface ItfzLibrosDao {
     
     public boolean altaLibro(Libro libro);
     
-    public boolean eliminar(int id);
+    public boolean eliminar(int id) throws LibroNoEncontradoException;
     
     public List<Libro> consultarTodos();
     
-    public Libro consultarISBN(String isbn);
+    public Libro consultarISBN(String isbn) throws LibroNoEncontradoException;
     
     public List<Libro> consultarTitulo(String titulo);
     
-    public boolean modificarPrecio(String isbn, double precio);
+    public boolean modificarPrecio(String isbn, double precio) throws LibroNoEncontradoException;
     
 }

@@ -6,6 +6,8 @@
 package app.persistencia;
 
 import app.modelo.Libro;
+import app.modelo.LibroNoEncontradoException;
+import app.negocio.Constantes;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,7 +33,7 @@ public class LibrosDAO implements ItfzLibrosDao {
     public boolean altaLibro(Libro libro) {
         this.estado = false;
         try {
-            this.conex = new Conexion("jdbc:derby://localhost:1527/LIBRERIA;user=curso;password=curso");
+            this.conex = new Conexion(Constantes.DBURL);
             this.conn = conex.getConn();
             Statement s = this.conn.createStatement();
             this.consulta = "INSERT INTO CURSO.LIBROS (TITULO, AUTOR, EDITORIAL, ISBN, PUBLICACION, PRECIO, DESCRIPCION) VALUES"
@@ -49,28 +51,31 @@ public class LibrosDAO implements ItfzLibrosDao {
     }
 
     @Override
-    public boolean eliminar(int id) {
+    public boolean eliminar(int id) throws LibroNoEncontradoException {
         try {
-            conex = new Conexion("jdbc:derby://localhost:1527/LIBRERIA;user=curso;password=curso");
+            conex = new Conexion(Constantes.DBURL);
             conn = conex.getConn();
             Statement s = conn.createStatement();
             this.consulta = "DELETE FROM CURSO.LIBROS  WHERE ID = " + id;
             this.estadoConsulta = s.executeUpdate(consulta);
             this.estado = (this.estadoConsulta == 1);
+            if (!this.estado) {
+                throw new LibroNoEncontradoException("Libro con id " + id + " no encontrado en la BBDD", 0);
+            }
         } catch (SQLException ex) {
                 System.out.println("Error al elimnar el registro: " + ex.getMessage());
         } finally {
             if (conex != null)
                 conex.cerrarConexion();
         }
-        return this.estado;    
+        return this.estado;
     }
 
     @Override
     public List<Libro> consultarTodos() {
         List lista = new ArrayList();
         try {
-            this.conex = new Conexion("jdbc:derby://localhost:1527/LIBRERIA;user=curso;password=curso");
+            this.conex = new Conexion(Constantes.DBURL);
             this.conn = this.conex.getConn();
             Statement s = this.conn.createStatement();
             this.consulta = "SELECT * FROM CURSO.LIBROS";
@@ -94,7 +99,7 @@ public class LibrosDAO implements ItfzLibrosDao {
                 conex.cerrarConexion();
             if (this.rs != null)
                 try {
-                 this.rs.close();
+                    this.rs.close();
                 } catch (SQLException ex){
                     System.out.println("Error al cerrar la lista de resultados: " + ex.getMessage());
                 }
@@ -103,14 +108,16 @@ public class LibrosDAO implements ItfzLibrosDao {
     }
 
     @Override
-    public Libro consultarISBN(String isbn) {
+    public Libro consultarISBN(String isbn) throws LibroNoEncontradoException{
         Libro l = new Libro();
         try {
-            this.conex = new Conexion("jdbc:derby://localhost:1527/LIBRERIA;user=curso;password=curso");
+            this.conex = new Conexion(Constantes.DBURL);
             this.conn = this.conex.getConn();
             Statement s = this.conn.createStatement();
             this.consulta = "SELECT * FROM CURSO.LIBROS WHERE LIBROS.ISBN = '" + isbn + "'";
             this.rs = s.executeQuery(this.consulta);
+            if (!rs.next())
+                throw new LibroNoEncontradoException("ISBN " + isbn + " no encontrado en la BBDD", 0);
             while (rs.next()) {
                 l.setID(Integer.parseInt(this.rs.getString("ID")));
                 l.setTitulo(this.rs.getString("TITULO"));
@@ -128,7 +135,7 @@ public class LibrosDAO implements ItfzLibrosDao {
                 conex.cerrarConexion();
             if (this.rs != null)
                 try {
-                this.rs.close();
+                    this.rs.close();
                 } catch (SQLException ex){
                     System.out.println("Error al cerrar la lista de resultados: " + ex.getMessage());
                 }
@@ -140,7 +147,7 @@ public class LibrosDAO implements ItfzLibrosDao {
     public List<Libro> consultarTitulo(String titulo) {
         List lista = new ArrayList();
         try {
-            this.conex = new Conexion("jdbc:derby://localhost:1527/LIBRERIA;user=curso;password=curso");
+            this.conex = new Conexion(Constantes.DBURL);
             this.conn = this.conex.getConn();
             Statement s = this.conn.createStatement();
             this.consulta = "SELECT * FROM CURSO.LIBROS WHERE LIBROS.TITULO LIKE '%" + titulo + "%'";
@@ -164,7 +171,7 @@ public class LibrosDAO implements ItfzLibrosDao {
                 this.conex.cerrarConexion();
             if (this.rs != null)
                 try {
-                 this.rs.close();
+                    this.rs.close();
                 } catch (SQLException ex){
                     System.out.println("Error al cerrar la lista de resultados: " + ex.getMessage());
                 }
@@ -173,14 +180,17 @@ public class LibrosDAO implements ItfzLibrosDao {
     }
 
     @Override
-    public boolean modificarPrecio(String isbn, double precio) {
+    public boolean modificarPrecio(String isbn, double precio) throws LibroNoEncontradoException {
         try {
-            this.conex = new Conexion("jdbc:derby://localhost:1527/LIBRERIA;user=curso;password=curso");
+            this.conex = new Conexion(Constantes.DBURL);
             this.conn = conex.getConn();
             Statement s = conn.createStatement();
             this.consulta = "UPDATE CURSO.LIBROS SET LIBROS.PRECIO = " + precio + " WHERE ISBN = '" + isbn + "'";
             this.estadoConsulta = s.executeUpdate(consulta);
             this.estado = (this.estadoConsulta == 1);
+            if (!this.estado) {
+                throw new LibroNoEncontradoException("ISBN " + isbn + " no encontrado en la BBDD", 0);
+            }
         } catch (SQLException ex) {
                 System.out.println("Error al cambiar el registro: " + ex.getMessage());
         } finally {

@@ -21,7 +21,7 @@ public class Conexion {
         try {
             this.nombreBD = bdName;
             this.conn = null;
-            String driver = "org.apache.derby.jdbc.EmbeddedDriver";
+            String driver = "com.mysql.jdbc.Driver";
             Class.forName(driver).newInstance();
             this.conn = DriverManager.getConnection(this.nombreBD);
         }   catch (SQLException ex) {
