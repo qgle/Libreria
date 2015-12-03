@@ -1,0 +1,6 @@
+*.properties
+build.xml
+*.netbeans_update_resources
+nbproject/project.xml
+*.xml
+manifest.mf
